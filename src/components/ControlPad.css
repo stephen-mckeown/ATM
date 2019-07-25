@@ -1,0 +1,24 @@
+.controlPad {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-height: 400px
+}
+
+
+.controlPadRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+
+
+.controlPadButton {
+font-size: 20px;
+padding: 1em;
+border: 2px solid;
+margin: 0.3em;
+border-color: black;
+}
