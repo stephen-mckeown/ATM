@@ -3,10 +3,20 @@ import './ControlPad.css';
 
 
 class ControlPad extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pinApprove: false,
+      balance: 300,
+    };
+  }
 
 
 render (){
   return (
+<div>
+    <input className="display" type="text" placeholder="Enter PIN" />
+
     <div className="controlPad">
       <div className="controlPadRow">
         <p className="controlPadButton">1</p>
@@ -33,6 +43,8 @@ render (){
         <p className="controlPadButton">Confirm</p>
       </div>
     </div>
+
+</div>
   )
 }
 

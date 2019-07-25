@@ -1,3 +1,14 @@
+.display {
+  height: 3em;
+  width: 13em;
+  font-size: 1em;
+  border-radius: .5em;
+  border: .1em solid;
+  padding-left: .5em;
+  margin: .5em;
+}
+
+
 .controlPad {
   display: flex;
   flex-direction: column;
@@ -5,15 +16,11 @@
   max-height: 400px
 }
 
-
 .controlPadRow {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-
-
-
 
 .controlPadButton {
 font-size: 20px;
@@ -21,4 +28,5 @@ padding: 1em;
 border: 2px solid;
 margin: 0.3em;
 border-color: black;
+border-radius: 0.5em;
 }
