@@ -1,5 +1,6 @@
 import React from 'react';
 import './ControlPad.css';
+import { fetchPin } from './API.js'
 
 
 class ControlPad extends React.Component {
@@ -10,6 +11,14 @@ class ControlPad extends React.Component {
       balance: 300,
     };
   }
+
+
+checkPin() {
+  console.log("checkPin")
+  return fetchPin('https://frontend-challenge.screencloud-michael.now.sh/api/pin/', {pin:'1111'})
+  .then((res)=>
+  console.log(res))
+}
 
 
 render (){
@@ -39,8 +48,8 @@ render (){
         <p className="controlPadButton">#</p>
       </div>
       <div className="controlPadRow">
-        <p className="controlPadButton">Clear</p>
-        <p className="controlPadButton">Confirm</p>
+          <p className="controlPadButton">Clear</p>
+          <p className="controlPadButton" onClick={() => this.checkPin()}>Confirm</p>
       </div>
     </div>
 
