@@ -10,48 +10,72 @@ class ControlPad extends React.Component {
       pinApprove: false,
       balance: 0,
       display: '',
-      displayPinPrompt: true
+      displayMenu: false,
+      displayPinPrompt: true,
+      displayBalance: false,
+      displayWithdraw: false,
     };
   }
 
 
-  checkPin() {
-    console.log("checkPin")
-    return fetchPin('https://frontend-challenge.screencloud-michael.now.sh/api/pin/', { pin: this.state.display })
-      .then((response) => {
-        console.log(response, 'res')
-        if (response.ok) {
-          response.json().then(res => {
-            console.log(res.currentBalance, 'res.json()')
-            this.setState({
-              balance: res.currentBalance,
-              pinApprove: true,
-            },
-            ()=> console.log(this.state, 'state'))
-          })
-        }
-      })
+  confirmInput() {
+    if (!this.state.pinApprove) {
+      return fetchPin('https://frontend-challenge.screencloud-michael.now.sh/api/pin/', { pin: this.state.display })
+        .then((response) => {
+          console.log(response, 'res')
+          if (response.ok) {
+            response.json().then(res => {
+              this.setState({
+                balance: res.currentBalance,
+                pinApprove: true,
+                displayPinPrompt: false,
+                displayMenu: true,
+                display: ''
+              },
+                () => console.log(this.state, 'state'))
+            })
+          }
+        })
+    }
   }
 
   handleInput(e) {
-    console.log(e, 'e');
     let display = this.state.display + e;
     this.setState({
       display,
-      displayPinPrompt: false
     })
+    if (this.state.pinApprove && this.state.displayMenu) {
+      if (e == '1') {
+        this.setState({
+          displayBalance: true,
+          display: ''
+        })
+      }
+      if (e == '2') { this.setState({ 
+            displayWithdraw: true,
+               displayBalance: false, 
+        displayMenu: false,
+        display: ''}) }
+    }
   }
 
 
   render() {
     return (
       <div>
-
         <div className="display">
-          {this.state.displayPinPrompt ? <div>Input Pin</div> : null}
+          {this.state.displayBalance ? <div>Your balance is: {this.state.balance}</div> : null}
+          {this.state.displayPinPrompt ? <div>Input Pin and press Enter</div> : null}
+
+          {this.state.pinApprove && this.state.displayMenu ? <div>
+            <div>Select:</div>
+            {!this.state.displayBalance ? <div>1 Balance</div> : null}
+            <div>2 Withdraw</div>
+          </div>
+            : null}
+          {this.state.displayWithdraw ? <div>Select amount to withdraw:</div> : null}
           <div>{this.state.display}</div>
         </div>
-
         <div className="controlPad">
           <div className="controlPadRow">
             <p className="controlPadButton" onClick={() => this.handleInput('1')}>1</p>
@@ -75,10 +99,9 @@ class ControlPad extends React.Component {
           </div>
           <div className="controlPadRow">
             <p className="controlPadButton">Clear</p>
-            <p className="controlPadButton" onClick={() => this.checkPin()}>Confirm</p>
+            <p className="controlPadButton" onClick={() => this.confirmInput()}>Enter</p>
           </div>
         </div>
-
       </div>
     )
   }
