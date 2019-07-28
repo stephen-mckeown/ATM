@@ -8,7 +8,6 @@ function cashTotal(){
 }
 
 function cashout(amount) {
-  let remainder = 0;
   let five, ten, twenty;
 
   if(amount >= 100){    // If value over 100 give selection of notes

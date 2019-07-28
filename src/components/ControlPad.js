@@ -36,31 +36,44 @@ class ControlPad extends React.Component {
                 display: ''
               },
                 // () => console.log(this.state, 'state')
-                )
+              )
             })
           }
-          if(!response.ok){
-              this.setState({
-                 display: '',
-                 incorrectPin: true
-          })
-        }
+          if (!response.ok) {
+            this.setState({
+              display: '',
+              incorrectPin: true
+            })
+          }
         })
     }
-      if (this.state.displayWithdraw){
-          let balance = this.state.balance
-          let withdrawAmonut = this.state.display
-          balance -= this.state.display
-          let cashTotalAtm = CashService.cashTotal();
-          console.log(cashTotalAtm, 'cashTotalAtm')
-          if(withdrawAmonut > cashTotalAtm){
-           
-            alert('Not sufficient cash at ATM');
-            return;
-          }
-        this.setState({ balance })
-        let cashout = CashService.cashout(withdrawAmonut)
-        alert('You recieve \n Twenties ' + cashout.twenty + '\n Tens '+ cashout.ten + '\n fives ' + cashout.five);
+    if (this.state.displayWithdraw) {
+      let balance = this.state.balance
+      let withdrawAmonut = this.state.display
+      if (withdrawAmonut % 5 !== 0){
+        alert('Enter amount in increments of £5');
+        this.setState({
+          displayMenu: true,
+          displayWithdraw: false,
+          display: ''
+        })
+        return;
+      }
+      balance -= this.state.display
+      let cashTotalAtm = CashService.cashTotal();
+
+      if (withdrawAmonut > cashTotalAtm) {
+        alert('Not sufficient cash at ATM');
+        return;
+      }
+      this.setState({ balance })
+      let cashout = CashService.cashout(withdrawAmonut)
+      alert('You recieve \n Twenties ' + cashout.twenty + '\n Tens ' + cashout.ten + '\n fives ' + cashout.five);
+      this.setState({
+        displayMenu: true,
+        displayWithdraw: false,
+        display: ''
+      })
     }
   }
 
@@ -70,17 +83,20 @@ class ControlPad extends React.Component {
       display,
     })
     if (this.state.loggedIn && this.state.displayMenu) {
-      if (e ==='1') {
+      if (e === '1') {
         this.setState({
           displayBalance: true,
           display: ''
         })
       }
-      if (e === '2') { this.setState({ 
-        displayWithdraw: true,
-        displayBalance: false, 
-        displayMenu: false,
-        display: ''}) }
+      if (e === '2') {
+        this.setState({
+          displayWithdraw: true,
+          displayBalance: false,
+          displayMenu: false,
+          display: ''
+        })
+      }
     }
   }
 
@@ -88,11 +104,11 @@ class ControlPad extends React.Component {
   render() {
     return (
       <div>
-      {!this.state.loggedIn ?
-        <DisplayInitial display={this.state.display} incorrectPin={this.state.incorrectPin}/>
-      :
-        <DisplayMain display={this.state.display} balance={this.state.balance} displayMenu={this.state.displayMenu} displayBalance={this.state.displayBalance} displayWithdraw={this.state.displayWithdraw} />
-      }
+        {!this.state.loggedIn ?
+          <DisplayInitial display={this.state.display} incorrectPin={this.state.incorrectPin} />
+          :
+          <DisplayMain display={this.state.display} balance={this.state.balance} displayMenu={this.state.displayMenu} displayBalance={this.state.displayBalance} displayWithdraw={this.state.displayWithdraw} />
+        }
         <div className="controlPad">
           <div className="controlPadRow">
             <p className="controlPadButton" onClick={() => this.handleInput('1')}>1</p>
