@@ -4,7 +4,6 @@ import './Display.css';
 
 class DisplayMain extends React.Component {
   render() {
-    console.log(this.props, 'props')
     return (
       <div className="display">
         {this.props.displayBalance ? <div>Your balance is: {this.props.balance}</div> : null}
@@ -15,6 +14,7 @@ class DisplayMain extends React.Component {
                                   </div>
                                 : null}
         {this.props.displayWithdraw ? <div>Enter amount to withdraw:</div> : null}
+        {this.props.displayOverDrawn ? <div>This will leave you overdrawn by {this.props.balance}</div> : null}
         <div>{this.props.display}</div>
       </div>
     )

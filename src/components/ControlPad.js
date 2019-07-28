@@ -18,6 +18,7 @@ class ControlPad extends React.Component {
       displayBalance: false,
       displayWithdraw: false,
       incorrectPin: false,
+      displayOverDrawn: false,
     };
   }
 
@@ -25,7 +26,7 @@ class ControlPad extends React.Component {
     if (!this.state.loggedIn) {
       return fetchPin('https://frontend-challenge.screencloud-michael.now.sh/api/pin/', { pin: this.state.display })
         .then((response) => {
-          console.log(response, 'res')
+          // console.log(response);
           if (response.ok) {
             response.json().then(res => {
               this.setState({
@@ -35,7 +36,7 @@ class ControlPad extends React.Component {
                 displayMenu: true,
                 display: ''
               },
-                // () => console.log(this.state, 'state')
+                 () => console.log(this.state, 'state')
               )
             })
           }
@@ -59,7 +60,11 @@ class ControlPad extends React.Component {
         })
         return;
       }
-      balance -= this.state.display
+      if (balance - withdrawAmonut < 0){
+        this.setState({ displayOverDrawn: true })
+        // alert('This will leave you ' + (balance - withdrawAmonut) + '\n Overdrawn');
+      }
+        balance -= withdrawAmonut
       let cashTotalAtm = CashService.cashTotal();
 
       if (withdrawAmonut > cashTotalAtm) {
@@ -107,7 +112,7 @@ class ControlPad extends React.Component {
         {!this.state.loggedIn ?
           <DisplayInitial display={this.state.display} incorrectPin={this.state.incorrectPin} />
           :
-          <DisplayMain display={this.state.display} balance={this.state.balance} displayMenu={this.state.displayMenu} displayBalance={this.state.displayBalance} displayWithdraw={this.state.displayWithdraw} />
+          <DisplayMain display={this.state.display} balance={this.state.balance} displayMenu={this.state.displayMenu} displayBalance={this.state.displayBalance} displayWithdraw={this.state.displayWithdraw} displayOverDrawn={this.state.displayOverDrawn} />
         }
         <div className="controlPad">
           <div className="controlPadRow">
