@@ -3,6 +3,7 @@ import './ControlPad.css';
 import { fetchPin } from './API.js';
 import DisplayInitial from './DisplayInitial.js'
 import DisplayMain from './DisplayMain.js'
+import CashService from './CashService.js'
 
 
 class ControlPad extends React.Component {
@@ -50,9 +51,12 @@ class ControlPad extends React.Component {
       if (this.state.displayWithdraw){
         console.log("displayWithdraw")
           let balance = this.state.balance
+          let withdrawAmonut = this.state.display
           balance -= this.state.display
-        console.log(balance,"balance")
+      
         this.setState({ balance})
+        let cashout = CashService.cashout(withdrawAmonut)
+  console.log(cashout,"cashout")
     }
   }
 

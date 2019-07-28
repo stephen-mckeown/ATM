@@ -7,8 +7,7 @@ class DisplayInitial extends React.Component {
   render() {
     return (
       <div className="display">
-        <div>Input Pin and press Enter</div>
-        {this.props.incorrectPin ? <div>Incorrect Pin, Please try again</div> : null}
+        {!this.props.incorrectPin ?  <div>Input Pin and press Enter</div> : <div>Incorrect Pin, Please try again</div>}
         <div>{this.props.display}</div>
       </div>
     )
