@@ -21,7 +21,6 @@ class ControlPad extends React.Component {
     };
   }
 
-
   confirmInput() {
     if (!this.state.loggedIn) {
       return fetchPin('https://frontend-challenge.screencloud-michael.now.sh/api/pin/', { pin: this.state.display })
@@ -49,14 +48,19 @@ class ControlPad extends React.Component {
         })
     }
       if (this.state.displayWithdraw){
-        console.log("displayWithdraw")
           let balance = this.state.balance
           let withdrawAmonut = this.state.display
           balance -= this.state.display
-      
-        this.setState({ balance})
+          let cashTotalAtm = CashService.cashTotal();
+          console.log(cashTotalAtm, 'cashTotalAtm')
+          if(withdrawAmonut > cashTotalAtm){
+           
+            alert('Not sufficient cash at ATM');
+            return;
+          }
+        this.setState({ balance })
         let cashout = CashService.cashout(withdrawAmonut)
-  console.log(cashout,"cashout")
+        alert('You recieve \n Twenties ' + cashout.twenty + '\n Tens '+ cashout.ten + '\n fives ' + cashout.five);
     }
   }
 

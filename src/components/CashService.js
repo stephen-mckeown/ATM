@@ -3,7 +3,7 @@ let tensAtm = 15;
 let twentiesAtm = 7;
 
 function cashTotal(){
-  let total = (fivesAtm * 5) + (tensAtm * 10) + (twentiesAtm + 20);
+  let total = (fivesAtm * 5) + (tensAtm * 10) + (twentiesAtm * 20);
   return total;
 }
 
@@ -24,23 +24,40 @@ function cashout(amount) {
     }
   }
 
-  if(amount >= 20){
+  if(amount >= 20 && twentiesAtm > 0){
     twenty = Math.floor(amount / 20);
-    twentiesAtm -= twenty;
-    amount = amount % 20;
-    console.log(amount, 'amount')
+    if(twenty > twentiesAtm){
+      twenty = twentiesAtm;
+      twentiesAtm = 0;
+      amount = amount - twenty * 20
+    } else {
+      twentiesAtm -= twenty;
+      amount = amount % 20;
+    }
   }
    if(amount >= 10){
     ten = Math.floor(amount / 10);
+    if(ten > tensAtm){
+      ten = tensAtm;
+      tensAtm = 0;
+      amount = amount - ten * 10
+    } else {
     tensAtm -= ten;
     amount = amount % 10;
+    }
   }
-    if(amount >= 5){
+  if(amount >= 5){
     five = Math.floor(amount / 5);
+     if(five > fivesAtm){
+      five = fivesAtm;
+      fivesAtm = 0;
+      amount = amount - five * 5
+    } else {
     fivesAtm -= five;
     amount = amount % 5;
+    }
   }
- return {twenty, ten, five}
+return {twenty, ten, five}
 }
 
-export default {cashout};
+export default {cashout, cashTotal};
