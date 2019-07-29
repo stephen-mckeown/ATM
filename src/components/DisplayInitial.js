@@ -8,7 +8,7 @@ class DisplayInitial extends React.Component {
     return (
       <div className="display">
         {!this.props.incorrectPin ?  <div>Input Pin and press Enter</div> : <div>Incorrect Pin, Please try again</div>}
-        <div>{this.props.display}</div>
+        <div className="input" >{this.props.display}</div>
       </div>
     )
   }

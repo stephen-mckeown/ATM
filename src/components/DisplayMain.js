@@ -22,7 +22,7 @@ class DisplayMain extends React.Component {
                               <div>2 Cancel</div>
                             </div>
                                     : null}
-        <div>{this.props.display}</div>
+        <div className="input">{this.props.display}</div>
       </div>
     )
   }

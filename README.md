@@ -29,9 +29,15 @@ Finally to run the app:
 ```
 Once the build process has finished the app will run locally on your machine.
 
+You can run the Test Script 
+```
+  npm test
+```
+
 
 ## Still to do...
 There is a few unfinished items within the app:
-* Tests!
-* No error handling
+* React Tests!
+* Error handling
 * Mobile responsive
+* Improve UI, Add 'beeb' on click!
