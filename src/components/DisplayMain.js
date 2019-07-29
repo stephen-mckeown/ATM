@@ -14,7 +14,14 @@ class DisplayMain extends React.Component {
                                   </div>
                                 : null}
         {this.props.displayWithdraw ? <div>Enter amount to withdraw:</div> : null}
-        {this.props.displayOverDrawn ? <div>This will leave you overdrawn by {this.props.balance}</div> : null}
+        {this.props.displayOverDrawn ? 
+                            <div>
+                              <div>This will leave you overdrawn by {this.props.overDrawnAmount}</div> 
+                              <div>Select:</div>
+                              <div>1 Proceed</div>
+                              <div>2 Cancel</div>
+                            </div>
+                                    : null}
         <div>{this.props.display}</div>
       </div>
     )
