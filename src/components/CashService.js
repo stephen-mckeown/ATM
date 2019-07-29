@@ -35,7 +35,7 @@ function cashout(amount) {
     amount = amount % 10;
     }
   }
-  
+
   if (amount >= 5 && fivesAtm > 0){
     five = Math.floor(amount / 5);
      if(five > fivesAtm){

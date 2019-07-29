@@ -52,7 +52,6 @@ class ControlPad extends React.Component {
     }
   }
 
-
   cancelInput(){
        this.setState({
               display: '',
