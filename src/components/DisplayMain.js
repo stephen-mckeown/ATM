@@ -13,8 +13,8 @@ class DisplayMain extends React.Component {
                                     <div>2 Withdraw</div>
                                   </div>
                                 : null}
-        {this.props.displayWithdraw ? <div>Enter amount to withdraw:</div> : null}
-        {this.props.displayOverDrawn ? 
+        {this.props.displayWithdrawPrompt ? <div>Enter amount to withdraw:</div> : null}
+        {this.props.displayOverDrawnPrompt ? 
                             <div>
                               <div>This will leave you overdrawn by {this.props.overDrawnAmount}</div> 
                               <div>Select:</div>

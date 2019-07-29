@@ -4,7 +4,6 @@ import { fetchPin } from './API.js';
 import DisplayInitial from './DisplayInitial.js'
 import DisplayMain from './DisplayMain.js'
 import CashService from './CashService.js'
-import { async } from 'q';
 
 
 class ControlPad extends React.Component {
@@ -15,11 +14,10 @@ class ControlPad extends React.Component {
       balance: 0,
       display: '',
       displayMenu: false,
-      displayPinPrompt: true,
       displayBalance: false,
-      displayWithdraw: false,
+      displayWithdrawPrompt: false,
       incorrectPin: false,
-      displayOverDrawn: false,
+      displayOverDrawnPrompt: false,
       overDrawnAmount: 0,
                 input: ''
     };
@@ -34,7 +32,6 @@ class ControlPad extends React.Component {
               this.setState({
                 balance: res.currentBalance,
                 loggedIn: true,
-                displayPinPrompt: false,
                 displayMenu: true,
                 display: '',
               },
@@ -50,7 +47,7 @@ class ControlPad extends React.Component {
           }
         })
     }
-    if (this.state.displayWithdraw) {
+    if (this.state.displayWithdrawPrompt) {
       this.withDraw();
     }
   }
@@ -70,7 +67,7 @@ class ControlPad extends React.Component {
       alert('Enter amount in increments of £5');
       this.setState({
         displayMenu: true,
-        displayWithdraw: false,
+        displayWithdrawPrompt: false,
         display: ''
       })
       return;
@@ -96,15 +93,15 @@ class ControlPad extends React.Component {
     alert('You recieve \n Twenties ' + cash.twenty + '\n Tens ' + cash.ten + '\n fives ' + cash.five);
     this.setState({
       displayMenu: true,
-      displayWithdraw: false,
+      displayWithdrawPrompt: false,
       display: ''
     })
   }
 
   overDrawn() {
     this.setState({
-      displayOverDrawn: true,
-      displayWithdraw: false,
+      displayOverDrawnPrompt: true,
+      displayWithdrawPrompt: false,
       display: ''
     })
   }
@@ -116,7 +113,7 @@ class ControlPad extends React.Component {
     this.setState({
       display, input
     })
-    if (this.state.loggedIn && this.state.displayMenu && !this.state.displayOverDrawn) {
+    if (this.state.loggedIn && this.state.displayMenu && !this.state.displayOverDrawnPrompt) {
       if (e === '1') {
         this.setState({
           displayBalance: true,
@@ -125,27 +122,27 @@ class ControlPad extends React.Component {
       }
       if (e === '2') {
         this.setState({
-          displayWithdraw: true,
+          displayWithdrawPrompt: true,
           displayBalance: false,
           displayMenu: false,
           display: ''
         })
       }
     }
-    if (this.state.displayOverDrawn) {
+    if (this.state.displayOverDrawnPrompt) {
       if (e === '1') {
         this.withDraw("confirm");
         this.setState({
-          displayWithdraw: false,
-          displayOverDrawn: false,
+          displayWithdrawPrompt: false,
+          displayOverDrawnPrompt: false,
           display: ''
         })
       }
       if (e === '2') {
         this.setState({
-          displayWithdraw: false,
+          displayWithdrawPrompt: false,
           displayBalance: false,
-          displayOverDrawn: false,
+          displayOverDrawnPrompt: false,
           displayMenu: true,
           display: '',
           input:''
@@ -163,7 +160,7 @@ class ControlPad extends React.Component {
         {!this.state.loggedIn ?
           <DisplayInitial display={this.state.display} incorrectPin={this.state.incorrectPin} />
           :
-          <DisplayMain display={this.state.display} balance={this.state.balance} displayMenu={this.state.displayMenu} displayBalance={this.state.displayBalance} displayWithdraw={this.state.displayWithdraw} displayOverDrawn={this.state.displayOverDrawn} overDrawnAmount={this.state.overDrawnAmount} />
+          <DisplayMain display={this.state.display} balance={this.state.balance} displayMenu={this.state.displayMenu} displayBalance={this.state.displayBalance} displayWithdrawPrompt={this.state.displayWithdrawPrompt} displayOverDrawnPrompt={this.state.displayOverDrawnPrompt} overDrawnAmount={this.state.overDrawnAmount} />
         }
         <div className="controlPad">
           <div className="controlPadRow">
@@ -194,7 +191,6 @@ class ControlPad extends React.Component {
       </div>
     )
   }
-
 }
 
 export default ControlPad;
