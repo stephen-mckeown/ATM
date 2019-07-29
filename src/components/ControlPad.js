@@ -29,7 +29,6 @@ class ControlPad extends React.Component {
     if (!this.state.loggedIn) {
       return fetchPin('https://frontend-challenge.screencloud-michael.now.sh/api/pin/', { pin: this.state.display })
         .then((response) => {
-          // console.log(response);
           if (response.ok) {
             response.json().then(res => {
               this.setState({
@@ -39,7 +38,7 @@ class ControlPad extends React.Component {
                 displayMenu: true,
                 display: '',
               },
-                () => console.log(this.state, 'state')
+                // () => console.log(this.state, 'state')
               )
             })
           }
@@ -57,11 +56,16 @@ class ControlPad extends React.Component {
   }
 
 
+  cancelInput(){
+       this.setState({
+              display: '',
+              input: ''
+            })
+  }
+
   withDraw(flag) {
-    console.log(this.state, 'state')
     let balance = this.state.balance
     let input = this.state.input
-    console.log(this.state.input, "input 64")
     if (input % 5 !== 0) {
       alert('Enter amount in increments of £5');
       this.setState({
@@ -78,7 +82,6 @@ class ControlPad extends React.Component {
       return
     }
     let cashTotalAtm = CashService.cashTotal();
-    console.log(this.state.input, 'this.state.input**')
     if (input > cashTotalAtm) {
       alert('Not sufficient cash at ATM');
       return;
@@ -97,7 +100,6 @@ class ControlPad extends React.Component {
       display: ''
     })
   }
-
 
   overDrawn() {
     this.setState({
@@ -153,6 +155,8 @@ class ControlPad extends React.Component {
   }
 
 
+
+
   render() {
     return (
       <div>
@@ -183,7 +187,7 @@ class ControlPad extends React.Component {
             <p className="controlPadButton">#</p>
           </div>
           <div className="controlPadRow">
-            <p className="controlPadButton">Clear</p>
+            <p className="controlPadButton" onClick={() => this.cancelInput()}>Clear</p>
             <p className="controlPadButton" onClick={() => this.confirmInput()}>Enter</p>
           </div>
         </div>
